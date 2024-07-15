@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_15_024439) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_15_190440) do
   create_table "accessories", force: :cascade do |t|
     t.string "product"
     t.integer "price"
@@ -59,7 +59,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_15_024439) do
   end
 
   create_table "tee_times", force: :cascade do |t|
-    t.string "course"
     t.datetime "start_time"
     t.integer "price"
     t.integer "golf_course_id", null: false

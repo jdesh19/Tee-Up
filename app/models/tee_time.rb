@@ -3,7 +3,6 @@ class TeeTime < ApplicationRecord
   has_one :booking
   has_many :shopping_carts
 
-  validates :course_id, presence: true
   validates :start_time, presence: true
   validates :price, presence: true
   validates :golf_course_id, presence: true

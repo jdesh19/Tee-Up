@@ -1,9 +1,32 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+require 'date'
+GolfCourse.destroy_all
+
+courses = GolfCourse.create([
+  { name: "Pebble Beach Golf Links", holes: 18, location: "Pebble Beach, California, USA" },
+  { name: "Banff Springs Golf Course", holes: 18, location: "Banff, Alberta, Canada" },
+  { name: "Shadow Creek Golf Course", holes: 18, location: "North Las Vegas, Nevada, USA" },
+  { name: "Winged Foot Golf Club", holes: 18, location: "Mamaroneck, New York, USA" }
+])
+
+start_date = Date.today
+end_date = start_date + 1.year
+
+start_time = DateTime.new(start_date.year, start_date.month, start_date.day, 7, 0)
+end_time = start_time + 12.hours
+interval_minutes = 15
+
+(start_date..end_date).each do |date|
+  courses.each do |course|
+    current_time = start_time
+
+    while current_time < end_time
+      tee_time = TeeTime.new(start_time: current_time, price: 4699, golf_course_id: course.id)
+      unless tee_time.save
+        puts tee_time.errors.full_messages
+      end
+      current_time += interval_minutes.minutes
+    end
+  end
+end
+
+puts "Created #{TeeTime.count} tee times."
