@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  course: MyString
+  start_time: 2024-07-14 20:45:25
+  price: 1
+  golf_course: one
+
+two:
+  course: MyString
+  start_time: 2024-07-14 20:45:25
+  price: 1
+  golf_course: two
