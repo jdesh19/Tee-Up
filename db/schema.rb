@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_15_014528) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_15_024439) do
   create_table "accessories", force: :cascade do |t|
     t.string "product"
     t.integer "price"
@@ -29,6 +29,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_15_014528) do
     t.datetime "updated_at", null: false
     t.index ["tee_time_id"], name: "index_bookings_on_tee_time_id"
     t.index ["user_id"], name: "index_bookings_on_user_id"
+  end
+
+  create_table "cart_items", force: :cascade do |t|
+    t.integer "shopping_cart_id", null: false
+    t.integer "tee_time_id", null: false
+    t.integer "accessory_id", null: false
+    t.integer "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["accessory_id"], name: "index_cart_items_on_accessory_id"
+    t.index ["shopping_cart_id"], name: "index_cart_items_on_shopping_cart_id"
+    t.index ["tee_time_id"], name: "index_cart_items_on_tee_time_id"
   end
 
   create_table "golf_courses", force: :cascade do |t|
@@ -68,6 +80,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_15_014528) do
   add_foreign_key "accessories", "shopping_carts"
   add_foreign_key "bookings", "tee_times"
   add_foreign_key "bookings", "users"
+  add_foreign_key "cart_items", "accessories"
+  add_foreign_key "cart_items", "shopping_carts"
+  add_foreign_key "cart_items", "tee_times"
   add_foreign_key "shopping_carts", "users"
   add_foreign_key "tee_times", "golf_courses"
 end
