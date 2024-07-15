@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
   get 'golf_courses/index', to: "golf_courses#index"
   get 'tee_times/index', to: "tee_times#index"
   root 'home#home'

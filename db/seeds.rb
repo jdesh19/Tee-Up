@@ -37,3 +37,4 @@ while current_date <= end_date
 end
 
 puts "Created #{TeeTime.count} tee times."
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
