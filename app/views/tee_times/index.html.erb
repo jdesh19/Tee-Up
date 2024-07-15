@@ -1,0 +1,25 @@
+<h1>All Tee Times</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Start Time</th>
+      <th>Price</th>
+      <th>Golf Course</th>
+      <th>Holes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tee_times.each do |tee_time| %>
+    <% formatted_price = format("$%.2f", tee_time.price / 100.0) %>
+      <tr>
+        <td><%= tee_time.start_time.strftime('%d-%B, %H:%M') %></td>
+        <td><%= formatted_price %></td>
+        <td><%= tee_time.golf_course.name %></td> 
+        <td><%= tee_time.golf_course.holes %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @tee_times %>

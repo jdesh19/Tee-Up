@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
+  get 'golf_courses/index', to: "golf_courses#index"
+  get 'tee_times/index', to: "tee_times#index"
   root 'home#home'
+  resources :tee_times
+  resources :golf_courses
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

@@ -1,4 +1,5 @@
 require 'date'
+TeeTime.destroy_all
 GolfCourse.destroy_all
 
 courses = GolfCourse.create([
@@ -15,7 +16,9 @@ start_time = DateTime.new(start_date.year, start_date.month, start_date.day, 7, 
 end_time = start_time + 12.hours
 interval_minutes = 15
 
-(start_date..end_date).each do |date|
+current_date = start_date
+
+while current_date <= end_date
   courses.each do |course|
     current_time = start_time
 
@@ -27,6 +30,10 @@ interval_minutes = 15
       current_time += interval_minutes.minutes
     end
   end
+
+  current_date += 1.day
+  start_time = DateTime.new(current_date.year, current_date.month, current_date.day, 7, 0)
+  end_time = start_time + 12.hours
 end
 
 puts "Created #{TeeTime.count} tee times."

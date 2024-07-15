@@ -1,0 +1,18 @@
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Holes</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @courses.each do |course| %>
+      <tr>
+        <td><%= course.name %></td>
+        <td><%= course.holes %></td> 
+        <td><%= course.location %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

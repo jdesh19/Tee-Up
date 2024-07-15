@@ -1,0 +1,2 @@
+module TeeTimesHelper
+end
