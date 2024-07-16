@@ -4,6 +4,7 @@ class GolfCoursesController < ApplicationController
   end
 
   def show
-    @course = GolfCourse.find(param[:id])
+    @golf_course = GolfCourse.find(params[:id])
+    @tee_times = @golf_course.tee_times.page(params[:page]).per(20)
   end
 end
