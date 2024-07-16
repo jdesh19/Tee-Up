@@ -10,15 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_15_224942) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_15_234658) do
   create_table "accessories", force: :cascade do |t|
     t.string "product"
     t.integer "price"
     t.integer "quantity"
-    t.integer "shopping_cart_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["shopping_cart_id"], name: "index_accessories_on_shopping_cart_id"
   end
 
   create_table "active_admin_comments", force: :cascade do |t|
@@ -103,7 +101,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_15_224942) do
     t.string "province"
   end
 
-  add_foreign_key "accessories", "shopping_carts"
   add_foreign_key "bookings", "tee_times"
   add_foreign_key "bookings", "users"
   add_foreign_key "cart_items", "accessories"
