@@ -1,5 +1,6 @@
 class GolfCourse < ApplicationRecord
   has_many :tee_times
+  has_one_attached :picture
 
   def self.ransackable_associations(auth_object = nil)
     ["tee_times"]

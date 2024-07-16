@@ -1,18 +1,11 @@
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Holes</th>
-      <th>Location</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @courses.each do |course| %>
-      <tr>
-        <td><%= course.name %></td>
-        <td><%= course.holes %></td> 
-        <td><%= course.location %></td>
-      </tr>
+<div class="grid justify-center">
+  <% @courses.each do |course| %>
+  <div class="grid justify-center border mt-3 p-4 w-56">
+    <p class="text-base"><span class="text-xl"><%= course.name %></span> is a <%= course.holes %> hole golf course located in <%= course.location %></p>
+    <% if course.picture.attached? %>
+      <%= image_tag url_for(course.picture) %>
     <% end %>
-  </tbody>
-</table>
+  </div>
+  <%end%>
+</div>
+
