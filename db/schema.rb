@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_16_001849) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_16_213510) do
   create_table "accessories", force: :cascade do |t|
     t.string "product"
     t.integer "price"
@@ -73,28 +73,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_16_001849) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
-  create_table "bookings", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "tee_time_id", null: false
-    t.integer "player_count"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["tee_time_id"], name: "index_bookings_on_tee_time_id"
-    t.index ["user_id"], name: "index_bookings_on_user_id"
-  end
-
-  create_table "cart_items", force: :cascade do |t|
-    t.integer "shopping_cart_id", null: false
-    t.integer "tee_time_id", null: false
-    t.integer "accessory_id", null: false
-    t.integer "price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["accessory_id"], name: "index_cart_items_on_accessory_id"
-    t.index ["shopping_cart_id"], name: "index_cart_items_on_shopping_cart_id"
-    t.index ["tee_time_id"], name: "index_cart_items_on_tee_time_id"
-  end
-
   create_table "golf_courses", force: :cascade do |t|
     t.string "name"
     t.integer "holes"
@@ -103,10 +81,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_16_001849) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "provinces", force: :cascade do |t|
+    t.string "province_name"
+    t.decimal "tax_rate"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "shopping_carts", force: :cascade do |t|
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "tee_time_id"
+    t.integer "accessory_id"
+    t.integer "total"
+    t.integer "items"
+    t.index ["accessory_id"], name: "index_shopping_carts_on_accessory_id"
+    t.index ["tee_time_id"], name: "index_shopping_carts_on_tee_time_id"
     t.index ["user_id"], name: "index_shopping_carts_on_user_id"
   end
 
@@ -126,16 +117,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_16_001849) do
     t.string "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "province"
+    t.integer "province_id"
+    t.index ["province_id"], name: "index_users_on_province_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "bookings", "tee_times"
-  add_foreign_key "bookings", "users"
-  add_foreign_key "cart_items", "accessories"
-  add_foreign_key "cart_items", "shopping_carts"
-  add_foreign_key "cart_items", "tee_times"
   add_foreign_key "shopping_carts", "users"
   add_foreign_key "tee_times", "golf_courses"
+  add_foreign_key "users", "provinces"
 end
