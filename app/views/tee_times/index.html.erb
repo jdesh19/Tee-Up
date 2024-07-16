@@ -1,4 +1,4 @@
-<div class="grid justify-center">
+<div class="grid justify-center mb-5">
   <h1 class="text-xl font-bold mt-5">All <%= @all_tee_times %> Tee Times</h1>
   <%= search_form_for @q do |f| %>
     <div>
@@ -8,7 +8,6 @@
 
     <%= f.submit "Search"%>
   <% end %>
-  <%= paginate @tee_times %>
   <div class="overflow-x-auto">
     <table class="min-w-full bg-white border border-gray-200 mt-5">
       <thead>
@@ -32,4 +31,5 @@
       </tbody>
     </table>
   </div>
+  <%= paginate @tee_times %>
 </div>
