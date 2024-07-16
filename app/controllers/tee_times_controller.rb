@@ -1,6 +1,8 @@
 class TeeTimesController < ApplicationController
   def index
-    @tee_times = TeeTime.page(params[:page]).per(49)
+    @q = TeeTime.ransack(params[:q])
+    @all_tee_times = @q.result(distinct: true).count
+    @tee_times = @q.result(distinct: true).page(params[:page]).per(20)
   end
 
   def show
