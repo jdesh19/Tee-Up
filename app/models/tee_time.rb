@@ -1,13 +1,12 @@
 class TeeTime < ApplicationRecord
   belongs_to :golf_course
-  has_one :booking
   has_many :shopping_carts
 
   def self.ransackable_attributes(auth_object = nil)
     ["created_at", "golf_course_id", "id", "id_value", "price", "start_time", "updated_at"]
   end
   def self.ransackable_associations(auth_object = nil)
-    ["booking", "golf_course", "shopping_carts"]
+    ["golf_course", "shopping_carts"]
   end
 
   validates :start_time, presence: true

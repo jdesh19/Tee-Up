@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_16_213510) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_17_020215) do
   create_table "accessories", force: :cascade do |t|
     t.string "product"
     t.integer "price"
@@ -81,9 +81,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_16_213510) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "orders", force: :cascade do |t|
+    t.integer "shopping_cart_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shopping_cart_id"], name: "index_orders_on_shopping_cart_id"
+  end
+
   create_table "provinces", force: :cascade do |t|
-    t.string "province_name"
-    t.decimal "tax_rate"
+    t.string "province"
+    t.decimal "pst"
+    t.decimal "gst"
+    t.decimal "hst"
+    t.decimal "total_tax_rate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -111,19 +121,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_16_213510) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "full_name"
-    t.string "email"
-    t.string "password"
-    t.string "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.string "address"
     t.integer "province_id"
-    t.index ["province_id"], name: "index_users_on_province_id"
+    t.string "full_name"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "orders", "shopping_carts"
   add_foreign_key "shopping_carts", "users"
   add_foreign_key "tee_times", "golf_courses"
-  add_foreign_key "users", "provinces"
 end

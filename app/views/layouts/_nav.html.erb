@@ -3,7 +3,15 @@
     <nav>
         <ul class="flex">
             <li class="list-none"><%= link_to "Tee Times", root_path %></li>
-            <li class="pl-2 list-none"><%= link_to "Golf Courses", golf_courses_path %></li>  
+            <li class="pl-2 list-none"><%= link_to "Golf Courses", golf_courses_path %></li>
+            <%if user_signed_in? %>
+            <li class="pl-2 list-none"><%= current_user.full_name %></li>
+            <li class="pl-2 list-none"><%= link_to "Edit Account", edit_user_registration_path%></li>
+            <li class="pl-2 list-none"><%= button_to "Sign Out", destroy_user_session_path, method: :delete %></li>
+            <%else%>
+            <li class="pl-2 list-none"><%= link_to "Sign Up", new_user_registration_path%></li>
+            <li class="pl-2 list-none"><%= link_to "Log in", new_user_session_path %></li>
+            <%end%>
         </ul>
     </nav>
 </div>
