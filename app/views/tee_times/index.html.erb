@@ -3,16 +3,16 @@
   <%= search_form_for @q do |f| %>
 
   <div>
-    <%= f.label :start_time_eq, "Search for a Tee Time (Date and Time)" %>
-    <%= f.datetime_field :start_time_eq, value: params.dig(:q, :start_time_eq) %>
+    <%= f.label :start_time_eq, "Search for a Tee Time:" %>
+    <%= f.datetime_field :start_time_eq, class: "form-input block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", value: params.dig(:q, :start_time_eq) %>
   </div>
 
   <div>
     <%= f.label :golf_course_id_eq, "Filter by Golf Course:" %>
-    <%= f.collection_select :golf_course_id_eq, GolfCourse.all, :id, :name, { include_blank: 'Select All' }, selected: params.dig(:q, :golf_course_id_eq) %>
+    <%= f.collection_select :golf_course_id_eq, GolfCourse.all, :id, :name, { include_blank: 'Select All' },class: "form-input block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", selected: params.dig(:q, :golf_course_id_eq) %>
   </div>
 
-    <%= f.submit "Search"%>
+    <%= f.submit "Search", class: "bg-green-800 text-white px-4 rounded-md hover:bg-green-500"%>
   <% end %>
   <div class="overflow-x-auto">
     <table class="min-w-full bg-white border border-gray-200 mt-5">
