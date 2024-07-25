@@ -1,6 +1,7 @@
 class TeeTimesController < ApplicationController
   def index
     @q = TeeTime.ransack(params[:q])
+        Rails.logger.debug "Search parameters: #{params[:q]}"
     @all_tee_times = @q.result(distinct: true).count
     @tee_times = @q.result(distinct: true).page(params[:page]).per(20)
   end

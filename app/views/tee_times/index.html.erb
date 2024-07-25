@@ -1,10 +1,16 @@
 <div class="grid justify-center mb-5">
   <h1 class="text-xl font-bold mt-5">All <%= @all_tee_times %> Tee Times</h1>
   <%= search_form_for @q do |f| %>
-    <div>
-      <%= f.label :golf_course_id_eq, "Filter by Golf Course:" %>
-      <%= f.collection_select :golf_course_id_eq, GolfCourse.all, :id, :name, { include_blank: 'Select All' }%>
-    </div>
+
+  <div>
+    <%= f.label :start_time_eq, "Search for a Tee Time (Date and Time)" %>
+    <%= f.datetime_field :start_time_eq, value: params.dig(:q, :start_time_eq) %>
+  </div>
+
+  <div>
+    <%= f.label :golf_course_id_eq, "Filter by Golf Course:" %>
+    <%= f.collection_select :golf_course_id_eq, GolfCourse.all, :id, :name, { include_blank: 'Select All' }, selected: params.dig(:q, :golf_course_id_eq) %>
+  </div>
 
     <%= f.submit "Search"%>
   <% end %>
