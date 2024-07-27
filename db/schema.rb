@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_25_013618) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_25_185722) do
   create_table "accessories", force: :cascade do |t|
     t.string "product"
     t.integer "price"
@@ -73,6 +73,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_25_013618) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "combined_accessories", force: :cascade do |t|
+    t.integer "accessory_id"
+    t.integer "price"
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "golf_courses", force: :cascade do |t|
     t.string "name"
     t.integer "holes"
@@ -82,10 +90,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_25_013618) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer "shopping_cart_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["shopping_cart_id"], name: "index_orders_on_shopping_cart_id"
+    t.integer "tee_time_id"
+    t.integer "combined_accessory_id"
+    t.integer "user_id"
+    t.integer "total_price"
+    t.integer "item_quantity"
   end
 
   create_table "provinces", force: :cascade do |t|
@@ -138,7 +149,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_25_013618) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "orders", "shopping_carts"
   add_foreign_key "shopping_carts", "users"
   add_foreign_key "tee_times", "golf_courses"
 end
