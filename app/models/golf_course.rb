@@ -1,7 +1,7 @@
 class GolfCourse < ApplicationRecord
   has_many :tee_times
   has_one_attached :picture do |attachable|
-    attachable.variant :courses_page, resize_to_limit: [200, 200]
+    attachable.variant :courses_page, resize_to_limit: [200, 115]
   end
 
   def self.ransackable_associations(auth_object = nil)

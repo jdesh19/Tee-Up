@@ -1,6 +1,6 @@
 class ShoppingCart < ApplicationRecord
   belongs_to :user
-  has_many :accessories
+  has_many :combined_accessories, :through => :accessory
   has_many :tee_times
 
   def self.ransackable_attributes(auth_object = nil)
