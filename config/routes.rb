@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   root 'tee_times#index'
   resources :tee_times
   resources :golf_courses
-  resources :shopping_carts
+  resources :shopping_carts, only: [:show, :create, :update, :destroy]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
