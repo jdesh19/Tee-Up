@@ -12,6 +12,7 @@ class User < ApplicationRecord
   end
 
   has_one :shopping_cart
+  has_many :orders
   belongs_to :province
 
   validates :email, uniqueness: true

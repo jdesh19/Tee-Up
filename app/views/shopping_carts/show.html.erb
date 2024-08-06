@@ -1,26 +1,8 @@
-
 <h1>Your Shopping Cart</h1>
 
-<% if @cart.present? %>
-
-  <h2>Tee Time:</h2>
-  <% if @cart.tee_time_id.present? %>
-    <% tee_time = TeeTime.find(@cart.tee_time_id) %>
-    <% formatted_price = format("$%.2f", tee_time.price / 100.0) %>
-    <p>Start Time: <%= tee_time.start_time.strftime('%B-%d, %H:%M') %></p>
-    <p>Price: <%= formatted_price %></p>
-  <% else %>
-    <p>No tee times in the cart.</p>
-  <% end %>
-
-  <h2>Accessories</h2>
-  <% if @cart.accessory_id.present? %>
-    <% accessory = Accessory.find(@cart.accessory_id) %>
-    <p>Product: <%= accessory.product %></p>
-    <p>Price: <%= accessory.price %></p>
-  <% else %>
-    <p>No accessories in the cart.</p>
-  <% end %>
+<% if @shopping_cart.tee_time %>
+  <p><strong>Tee Time:</strong> <%= @shopping_cart.tee_time.start_time.strftime("%B %d, %Y %H:%M") %> at <%= @shopping_cart.tee_time.golf_course.name %></p>
 <% else %>
-  <p>Cart not found</p>
+  <p>No tee time in cart.</p>
 <% end %>
+

@@ -1,6 +1,8 @@
 class TeeTime < ApplicationRecord
   belongs_to :golf_course
-  has_many :shopping_carts
+  has_many :orders
+  has_one :shopping_carts
+
 
   def self.ransackable_attributes(auth_object = nil)
     ["created_at", "golf_course_id", "id", "id_value", "price", "start_time", "updated_at"]

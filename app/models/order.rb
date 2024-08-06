@@ -1,4 +1,4 @@
 class Order < ApplicationRecord
-  has_many :combined_accessories, :through => :accessory
+  has_many :accessories, through: :combined_accessories
 
 end
