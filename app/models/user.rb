@@ -11,7 +11,7 @@ class User < ApplicationRecord
     ["created_at", "email", "encrypted_password", "id", "id_value", "remember_created_at", "reset_password_sent_at", "reset_password_token", "updated_at"]
   end
 
-  has_one :shopping_cart
+  has_one :shopping_cart, dependent: :destroy
   has_many :orders
   belongs_to :province
 

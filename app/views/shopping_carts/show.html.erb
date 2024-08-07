@@ -1,8 +1,9 @@
-<h1>Your Shopping Cart</h1>
-
-<% if @shopping_cart.tee_time %>
-  <p><strong>Tee Time:</strong> <%= @shopping_cart.tee_time.start_time.strftime("%B %d, %Y %H:%M") %> at <%= @shopping_cart.tee_time.golf_course.name %></p>
-<% else %>
-  <p>No tee time in cart.</p>
-<% end %>
-
+<div class="grid justify-center mt-3">
+  <h1 class="text-2xl mb-3"><%=current_user.full_name%>'s Shopping Cart</h1>
+  <% if @shopping_cart.tee_time %>
+    <p><strong>Tee Time:</strong> <%= @shopping_cart.tee_time.start_time.strftime("%B %d, %Y %H:%M") %> at <%= @shopping_cart.tee_time.golf_course.name %></p>
+    <%= button_to "Remove from Cart", remove_tee_time_shopping_cart_path, method: :delete, class: "btn btn-danger" %>
+  <% else %>
+    <p>No tee time in cart.</p>
+  <% end %>
+</div>

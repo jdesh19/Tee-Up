@@ -1,22 +1,36 @@
 class ShoppingCartsController < ApplicationController
-  before_action :set_cart, only: [:show, :add_tee_time, :add_accessory]
+  before_action :set_cart, only: [:show, :add_tee_time, :add_accessory, :remove_tee_time]
 
   def show
-    @cart
   end
 
   def add_tee_time
     @tee_time = TeeTime.find(params[:tee_time_id])
 
-    @shopping_cart.update(tee_time: nil) if @shopping_cart.tee_time.present?
-
-    if @shopping_cart.update(tee_time: @tee_time)
-      flash[:notice] = "Tee time added to cart."
-    else
-      flash[:alert] = "Failed to add tee time to cart."
+    if @shopping_cart.tee_time.present?
+      @shopping_cart.update(tee_time: nil)
     end
 
+    @shopping_cart.update(tee_time: @tee_time)
+    flash[:notice] = "Tee time added to cart."
+
     redirect_to shopping_cart_path(@shopping_cart)
+  end
+
+  def remove_tee_time
+    @shopping_cart = current_user.shopping_cart
+
+    if @shopping_cart.tee_time.present?
+      if @shopping_cart.destroy
+        flash[:notice] = "Tee time removed from cart."
+      else
+        flash[:alert] = "Can't Remove from cart"
+      end
+    else
+      flash[:alert] = "Cart Empty"
+    end
+
+    redirect_to root_path
   end
 
   def add_accessory
@@ -30,8 +44,7 @@ class ShoppingCartsController < ApplicationController
 
 
   def set_cart
-    @shopping_cart = current_user.shopping_cart
-    Rails.logger.debug "Shopping Cart: #{@shopping_cart.inspect}"
+    @shopping_cart = current_user.shopping_cart || current_user.create_shopping_cart
   end
 
 end

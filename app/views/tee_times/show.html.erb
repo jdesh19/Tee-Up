@@ -1,6 +1,6 @@
 <% formatted_price = format("$%.2f", @tee_time.price / 100.0) %>
 <div class="grid justify-center mt-5">
-    <h1>Tee Time info</h1>
+    <h1 class="text-xl">Tee Time info</h1>
      <table class="min-w-full bg-white border border-gray-200 mt-5">
       <thead>
         <tr class="bg-gray-100">
@@ -17,12 +17,12 @@
             <td class="border-b border-gray-300 px-4 py-2"><%= formatted_price %></td>
             <td class="border-b border-gray-300 px-4 py-2"><%= @tee_time.golf_course.name %></td>
             <td class="border-b border-gray-300 px-4 py-2"><%= @tee_time.golf_course.holes %></td>
-            <td class="border-b border-gray-300 px-4 py-2"><%= @tee_time.golf_course.location %></td>
-            <td>
-              <%= button_to "Add to Cart", add_tee_time_shopping_cart_path(tee_time_id: @tee_time.id), method: :post %>
-            </td>          
+            <td class="border-b border-gray-300 px-4 py-2"><%= @tee_time.golf_course.location %></td>         
           </tr>
       </tbody>
     </table>
-    <%= image_tag url_for(@tee_time.golf_course.picture), class: "w-1/3"%>
+    <div class="grid justify-center"> 
+      <%= button_to "Add to Cart", add_tee_time_shopping_cart_path(tee_time_id: @tee_time.id), method: :post, class: "bg-green-300 hover:bg-green-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" %>
+      <%= image_tag url_for(@tee_time.golf_course.picture)%>
+    </div>
 </div>

@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     member do
       post 'add_tee_time'
       post 'add_accessory'
+      delete 'remove_tee_time'
     end
   end
 
