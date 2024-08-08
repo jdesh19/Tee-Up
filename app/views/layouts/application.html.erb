@@ -15,12 +15,15 @@
   <body class="bg-green-600">
     <main>
       <%= render "layouts/nav"%>
-      <% flash.each do |key, message| %>
-    <div class="flash <%= key %>">
-      <%= message %>
-    </div>
-  <% end %>
+  
       <%= yield %>
+    <div class="grid justify-center">
+        <% flash.each do |key, message| %>
+      <div class="flash <%= key %>">
+        <%= message %>
+      </div>
+      <% end %>
+    </div>
       <%= render "layouts/admin"%>
     </main>
   </body>

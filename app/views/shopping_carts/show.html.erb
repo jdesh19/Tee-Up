@@ -1,9 +1,40 @@
-<div class="grid justify-center mt-3">
-  <h1 class="text-2xl mb-3"><%=current_user.full_name%>'s Shopping Cart</h1>
+<div class="max-w-xl mx-auto mt-8 p-4 bg-green-300 rounded shadow-md">
+  <h1 class="text-2xl mb-4 font-semibold text-center"><%= current_user.full_name %>'s Shopping Cart</h1>
   <% if @shopping_cart.tee_time %>
-    <p><strong>Tee Time:</strong> <%= @shopping_cart.tee_time.start_time.strftime("%B %d, %Y %H:%M") %> at <%= @shopping_cart.tee_time.golf_course.name %></p>
-    <%= button_to "Remove from Cart", remove_tee_time_shopping_cart_path, method: :delete, class: "btn btn-danger" %>
+    <% formatted_price = format("$%.2f", @shopping_cart.tee_time.price / 100.0) %>
+    <div class="mb-4 p-4 border rounded bg-green-100">
+      <p class="text-lg"><strong>Tee Time:</strong> <%= @shopping_cart.tee_time.start_time.strftime("%B %d, %Y %H:%M") %> at <%= @shopping_cart.tee_time.golf_course.name %></p>
+      <p class="text-lg"><strong>Price:</strong> <%= formatted_price %></p>
+      <%= button_to "Remove Tee Time", remove_tee_time_shopping_cart_path, method: :delete, class: "mt-3 inline-block px-4 py-2 bg-red-200 text-white rounded hover:bg-red-300" %>
+    </div>
   <% else %>
-    <p>No tee time in cart.</p>
+    <p class="text-center text-gray-500">No tee time in cart.</p>
   <% end %>
+
+  <h2 class="mt-6 text-xl font-semibold">Carts for your Booking</h2>
+  <ul class="mt-3 space-y-2">
+    <% @combined_accessories.each do |combined_accessory| %>
+      <li class="p-4 border rounded bg-green-100">
+        <div class="flex justify-between items-center">
+          <span><%= combined_accessory.accessory.product %> - <%= combined_accessory.quantity %> x <%= number_to_currency(combined_accessory.price / 100.0) %> = <%= number_to_currency((combined_accessory.quantity * combined_accessory.price) / 100.0) %></span>
+          <%= button_to 'Remove Accessory', remove_accessory_shopping_cart_path(@shopping_cart, accessory_id: combined_accessory.accessory_id), method: :delete, class: "ml-4 inline-block px-4 py-2 bg-red-200 text-white rounded hover:bg-red-300" %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+
+  <h3 class="mt-6 text-lg font-semibold">Reserve Carts</h3>
+  <%= form_with url: add_accessory_shopping_cart_path(@shopping_cart), local: true, method: :post do %>
+  <div>
+    <%= label_tag :accessory_id, 'Cart Type' %>
+    <%= select_tag :accessory_id, options_from_collection_for_select(@accessories, :id, :product), class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" %>
+  </div>
+  <div>
+    <%= label_tag :quantity, 'Quantity' %>
+    <%= number_field_tag :quantity, 1, min: 1, max: 4, class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" %>
+  </div>
+  <%= submit_tag 'Add to Booking', class: "bg-green-400 border rounded mt-1 hover:bg-green-500" %>
+<% end %>
+
+
 </div>

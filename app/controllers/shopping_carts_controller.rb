@@ -1,7 +1,9 @@
 class ShoppingCartsController < ApplicationController
-  before_action :set_cart, only: [:show, :add_tee_time, :add_accessory, :remove_tee_time]
+  before_action :set_cart, only: [:show, :add_tee_time, :remove_tee_time, :add_accessory, :remove_accessory]
 
   def show
+    @accessories = Accessory.all
+    @combined_accessories = @shopping_cart.combined_accessories.includes(:accessory)
   end
 
   def add_tee_time
@@ -35,13 +37,34 @@ class ShoppingCartsController < ApplicationController
 
   def add_accessory
     @shopping_cart = current_user.shopping_cart
-    @accessory = Accessory.find(params[:accessory_id])
-    CombinedAccessory.create(accessory: @accessory, shopping_cart: @shopping_cart, price: @accessory.price, quantity: 1)
-    flash[:notice] = "Accessory added to cart."
+    accessory_id = params[:accessory_id].to_i
+    quantity = params[:quantity].to_i
+
+    current_total_quantity = @shopping_cart.combined_accessories.sum(:quantity)
+
+    if current_total_quantity + quantity > 4
+      flash[:alert] = "Cannot add more than 4 carts in total to the order."
+    else
+      combined_accessory = @shopping_cart.combined_accessories.find_or_initialize_by(accessory_id: accessory_id)
+      combined_accessory.quantity = (combined_accessory.quantity || 0) + quantity
+      combined_accessory.price = Accessory.find(accessory_id).price
+
+      if combined_accessory.save
+        flash[:notice] = "Accessory added to cart."
+      else
+        flash[:alert] = "Failed to add accessory to cart."
+      end
+    end
 
     redirect_to shopping_cart_path(@shopping_cart)
   end
 
+  def remove_accessory
+    combined_accessory = @shopping_cart.combined_accessories.find_by(accessory_id: params[:accessory_id])
+    combined_accessory.destroy if combined_accessory
+
+    redirect_to shopping_cart_path(@shopping_cart), notice: 'Accessory removed from cart.'
+  end
 
   def set_cart
     @shopping_cart = current_user.shopping_cart || current_user.create_shopping_cart
