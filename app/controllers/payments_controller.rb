@@ -8,9 +8,9 @@ class PaymentsController < ApplicationController
       {
         name: accessory.product,
         sku: accessory.product,
-        price: accessory.price.to_f, # Ensure price is a float
+        price: (accessory.price.to_f / 100).round(2).to_s, # Convert cents to dollars
         currency: "CAD",
-        quantity: combined_accessory.quantity.to_i # Ensure quantity is an integer
+        quantity: combined_accessory.quantity.to_i
       }
     end
 
@@ -18,17 +18,17 @@ class PaymentsController < ApplicationController
       items << {
         name: "Tee Time",
         sku: "tee_time",
-        price: @shopping_cart.tee_time.price.to_f, # Ensure price is a float
+        price: (@shopping_cart.tee_time.price.to_f / 100).round(2).to_s, # Convert cents to dollars
         currency: "CAD",
         quantity: 1
       }
     end
 
-    total_amount = items.sum { |item| item[:price] * item[:quantity] }
-    formatted_total_amount = sprintf('%.2f', total_amount)
+    subtotal = items.sum { |item| item[:price].to_f * item[:quantity].to_i }.round(2)
 
-    Rails.logger.debug "Items: #{items.inspect}"
-    Rails.logger.debug "Total Amount: #{formatted_total_amount}"
+    tax = current_user.province.total_tax_rate
+    total_tax = (subtotal * tax).round(2)
+    total_price = (subtotal + total_tax).round(2)
 
     @payment = PayPal::SDK::REST::Payment.new({
       intent: "sale",
@@ -44,8 +44,12 @@ class PaymentsController < ApplicationController
           items: items
         },
         amount: {
-          total: formatted_total_amount,
-          currency: "CAD"
+          total: total_price.to_s,
+          currency: "CAD",
+          details: {
+            subtotal: subtotal.to_s,
+            tax: total_tax.to_s
+          }
         },
         description: "Booking fee for tee time and accessories."
       }]
@@ -85,6 +89,5 @@ class PaymentsController < ApplicationController
 
   def set_shopping_cart
     @shopping_cart = current_user.shopping_cart || ShoppingCart.create(user: current_user)
-    Rails.logger.debug "Shopping cart: #{current_user.shopping_cart.inspect}"
   end
 end
