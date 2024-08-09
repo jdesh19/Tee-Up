@@ -69,6 +69,7 @@ class ShoppingCartsController < ApplicationController
     redirect_to shopping_cart_path(@shopping_cart), notice: 'Accessory removed from cart.'
   end
 
+
   def set_cart
     @shopping_cart = current_user.shopping_cart || current_user.create_shopping_cart
   end

@@ -1,5 +1,6 @@
 <div class="max-w-xl mx-auto mt-8 p-4 bg-green-300 rounded shadow-md">
   <h1 class="text-2xl mb-4 font-semibold text-center"><%= current_user.full_name %>'s Shopping Cart</h1>
+
   <% if @shopping_cart.tee_time %>
     <% formatted_price = format("$%.2f", @shopping_cart.tee_time.price / 100.0) %>
     <div class="mb-4 p-4 border rounded bg-green-100">
@@ -25,20 +26,25 @@
 
   <h3 class="mt-6 text-lg font-semibold">Reserve Carts</h3>
   <%= form_with url: add_accessory_shopping_cart_path(@shopping_cart), local: true, method: :post do %>
-  <div>
-    <%= label_tag :accessory_id, 'Cart Type' %>
-    <%= select_tag :accessory_id, options_from_collection_for_select(@accessories, :id, :product), class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" %>
+    <div>
+      <%= label_tag :accessory_id, 'Cart Type' %>
+      <%= select_tag :accessory_id, options_from_collection_for_select(@accessories, :id, :product), class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" %>
+    </div>
+    <div>
+      <%= label_tag :quantity, 'Quantity' %>
+      <%= number_field_tag :quantity, 1, min: 1, max: 4, class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" %>
+    </div>
+    <%= submit_tag 'Add to Booking', class: "bg-green-400 border rounded mt-1 hover:bg-green-500" %>
+  <% end %>
+
+  <h2 class="mt-6 text-xl font-semibold">Summary</h2>
+  <div class="p-4 border rounded bg-green-100">
+    <p class="text-lg"><strong>Total Price:</strong> <%= number_to_currency(@shopping_cart.total_price) %></p>
+    <p class="text-lg"><strong>Tax Rate:</strong> <%= @shopping_cart.tax_rate %>%</p>
+    <p class="text-lg"><strong>Total with Tax:</strong> <%= number_to_currency(@shopping_cart.total_with_tax) %></p>
   </div>
-  <div>
-    <%= label_tag :quantity, 'Quantity' %>
-    <%= number_field_tag :quantity, 1, min: 1, max: 4, class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" %>
-  </div>
-  <%= submit_tag 'Add to Booking', class: "bg-green-400 border rounded mt-1 hover:bg-green-500" %>
-<% end %>
 
-<%= form_with url: payments_create_payment_path, method: :post, data: { turbo: "true" } do %>
-  <%= submit_tag "Pay with PayPal" %>
-<% end %>
-
-
+  <%= form_with url: payments_create_payment_path, method: :post, data: { turbo: "false" } do %>
+    <%= submit_tag "Pay with PayPal", class: "mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" %>
+  <% end %>
 </div>
