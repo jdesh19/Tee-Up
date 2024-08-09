@@ -40,7 +40,7 @@
   <h2 class="mt-6 text-xl font-semibold">Summary</h2>
   <div class="p-4 border rounded bg-green-100">
     <p class="text-lg"><strong>Total Price:</strong> <%= number_to_currency(@shopping_cart.total_price) %></p>
-    <p class="text-lg"><strong>Tax Rate:</strong> <%= @shopping_cart.tax_rate %>%</p>
+    <p class="text-lg"><strong> <%= link_to current_user.province.province, edit_user_registration_path %> Tax Rate:</strong> <%= @shopping_cart.tax_rate %>%</p>
     <p class="text-lg"><strong>Total with Tax:</strong> <%= number_to_currency(@shopping_cart.total_with_tax) %></p>
   </div>
 
