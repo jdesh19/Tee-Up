@@ -65,25 +65,13 @@ class PaymentsController < ApplicationController
     if payment.execute(payer_id: params[:PayerID])
       @shopping_cart = current_user.shopping_cart
 
-      # Create the order
-      order = Order.create!(
+      Order.create!(
         user_id: current_user.id,
         tee_time_id: @shopping_cart.tee_time_id,
-        total_amount: payment.transactions.first.amount.total,
-        status: 'completed' # You might want to add a status attribute
+        total_price: payment.transactions.first.amount.total,
+        combined_accessory_id: @shopping_cart.combined_accessory_ids
       )
 
-      # Create OrderItems for each accessory in the shopping cart
-      @shopping_cart.combined_accessories.each do |combined_accessory|
-        OrderItem.create!(
-          order_id: order.id,
-          accessory_id: combined_accessory.accessory_id,
-          quantity: combined_accessory.quantity, # Ensure this attribute is available
-          price: combined_accessory.accessory.price # Ensure you have a price attribute in Accessory
-        )
-      end
-
-      # Optionally clear the shopping cart after creating the order
       @shopping_cart.combined_accessories.destroy_all
 
       redirect_to root_path
@@ -97,5 +85,6 @@ class PaymentsController < ApplicationController
 
   def set_shopping_cart
     @shopping_cart = current_user.shopping_cart || ShoppingCart.create(user: current_user)
+    Rails.logger.debug "Shopping cart: #{current_user.shopping_cart.inspect}"
   end
 end
