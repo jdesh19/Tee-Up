@@ -36,5 +36,9 @@
   <%= submit_tag 'Add to Booking', class: "bg-green-400 border rounded mt-1 hover:bg-green-500" %>
 <% end %>
 
+<%= form_with url: payments_create_payment_path, method: :post, data: { turbo: "true" } do %>
+  <%= submit_tag "Pay with PayPal" %>
+<% end %>
+
 
 </div>

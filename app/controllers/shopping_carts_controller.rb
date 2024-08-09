@@ -12,7 +12,7 @@ class ShoppingCartsController < ApplicationController
     if @shopping_cart.tee_time.present?
       @shopping_cart.update(tee_time: nil)
     end
-
+    @shopping_cart.update(total: @tee_time.price)
     @shopping_cart.update(tee_time: @tee_time)
     flash[:notice] = "Tee time added to cart."
 
@@ -48,6 +48,9 @@ class ShoppingCartsController < ApplicationController
       combined_accessory = @shopping_cart.combined_accessories.find_or_initialize_by(accessory_id: accessory_id)
       combined_accessory.quantity = (combined_accessory.quantity || 0) + quantity
       combined_accessory.price = Accessory.find(accessory_id).price
+      total_price = combined_accessory.price + @shopping_cart.tee_time.price
+
+      @shopping_cart.update(total: total_price)
 
       if combined_accessory.save
         flash[:notice] = "Accessory added to cart."

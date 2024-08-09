@@ -1,23 +1,58 @@
-<div class="grid justify-center">
-    <p class="grid justify-center text-5xl"><%= link_to "Tee-Up", root_path %></p>
-    <nav>
-        <ul class="flex">
-            <li class="list-none pl-2"><%= link_to "Tee Times", root_path %></li>
-            <li class="pl-2 list-none"><%= link_to "Golf Courses", golf_courses_path %></li>
-            <%if user_signed_in? %>
-            <li class="pl-2 list-none"><%= link_to current_user.full_name, edit_user_registration_path%></li>
-            <li class="pl-2 list-none"><%= button_to "Sign Out", destroy_user_session_path, method: :delete %></li>
-            <li class="pl-2 list-none">
-            <% if current_user && current_user.shopping_cart %>
-                <%= link_to "View Cart", shopping_cart_path(current_user.shopping_cart), class: "btn btn-primary" %>
+ <div class="container mx-auto grid items-center justify-center">
+
+
+      
+        <p class="text-5xl text-white">
+            <%= link_to "Tee-Up", root_path %>
+        </p>
+        <button id="menu-toggle" class="md:hidden text-white">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+        </button>
+        <nav class="hidden md:flex flex-grow items-center justify-center">
+            <ul class="flex space-x-4">
+            <li class="list-none"><%= link_to "Tee Times", root_path, class: "text-white hover:bg-gray-700 px-3 py-2 rounded" %></li>
+            <li class="list-none"><%= link_to "Golf Courses", golf_courses_path, class: "text-white hover:bg-gray-700 px-3 py-2 rounded" %></li>
+            <% if user_signed_in? %>
+                <li class="list-none"><%= link_to current_user.full_name, edit_user_registration_path, class: "text-white hover:bg-gray-700 px-3 py-2 rounded" %></li>
+                <li class="list-none"><%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "text-white hover:bg-gray-700 px-3  rounded" %></li>
+                <li class="list-none">
+                <% if current_user && current_user.shopping_cart %>
+                    <%= link_to "View Cart", shopping_cart_path(current_user.shopping_cart), class: "text-white hover:bg-gray-700 px-3 py-2 rounded bg-blue-500" %>
+                <% else %>
+                    <%= link_to "View Cart", '#', class: "text-white hover:bg-gray-700 px-3 py-2 rounded bg-gray-500 cursor-not-allowed", disabled: true %>
+                <% end %>
+                </li>
             <% else %>
-                <%= link_to "View Cart", '#', class: "btn btn-secondary", disabled: true %>
+                <li class="list-none"><%= link_to "Sign Up", new_user_registration_path, class: "text-white hover:bg-gray-700 px-3 py-2 rounded" %></li>
+                <li class="list-none"><%= link_to "Log in", new_user_session_path, class: "text-white hover:bg-gray-700 px-3 py-2 rounded" %></li>
             <% end %>
-            </li>
-            <%else%>
-            <li class="pl-2 list-none"><%= link_to "Sign Up", new_user_registration_path%></li>
-            <li class="pl-2 list-none"><%= link_to "Log in", new_user_session_path %></li>
-            <%end%>
-        </ul>
-    </nav>
-</div>
+            </ul>
+        </nav>
+        <div id="menu" class="md:hidden fixed inset-0 bg-gray-800 bg-opacity-75 z-50 hidden">
+            <div class="flex flex-col items-center justify-center h-full space-y-4">
+            <%= link_to "Tee Times", root_path, class: "text-white text-2xl" %>
+            <%= link_to "Golf Courses", golf_courses_path, class: "text-white text-2xl" %>
+            <% if user_signed_in? %>
+                <%= link_to current_user.full_name, edit_user_registration_path, class: "text-white text-2xl" %>
+                <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "text-white text-2xl" %>
+                <% if current_user && current_user.shopping_cart %>
+                <%= link_to "View Cart", shopping_cart_path(current_user.shopping_cart), class: "text-white text-2xl bg-blue-500 px-4 py-2 rounded" %>
+                <% else %>
+                <%= link_to "View Cart", '#', class: "text-white text-2xl bg-gray-500 px-4 py-2 rounded cursor-not-allowed", disabled: true %>
+                <% end %>
+            <% else %>
+                <%= link_to "Sign Up", new_user_registration_path, class: "text-white text-2xl" %>
+                <%= link_to "Log in", new_user_session_path, class: "text-white text-2xl" %>
+            <% end %>
+            </div>
+        </div>
+    </div>
+  </header>
+  <script>
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('hidden');
+    });
+  </script>
