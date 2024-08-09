@@ -26,5 +26,6 @@ Rails.application.routes.draw do
   post 'payments/create_payment', to: 'payments#create_payment'
   get 'execute', to: 'payments#execute_payment'
   post 'payments/execute_payment', to: 'payments#execute_payment'
+  get 'payments/success', to: 'payments#success', as: 'success'
   get "up" => "rails/health#show", as: :rails_health_check
 end

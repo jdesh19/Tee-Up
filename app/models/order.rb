@@ -1,4 +1,7 @@
 class Order < ApplicationRecord
-  has_many :accessories, through: :combined_accessories
+  belongs_to :user
+  belongs_to :tee_time
+  has_many :combined_accessories
+
 
 end

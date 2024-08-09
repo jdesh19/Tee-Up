@@ -41,26 +41,23 @@ class ShoppingCartsController < ApplicationController
     quantity = params[:quantity].to_i
 
     current_total_quantity = @shopping_cart.combined_accessories.sum(:quantity)
-
     if current_total_quantity + quantity > 4
-      flash[:alert] = "Cannot add more than 4 carts in total to the order."
+      flash[:alert] = "Cannot add more than 4 accessories in total to the cart."
     else
       combined_accessory = @shopping_cart.combined_accessories.find_or_initialize_by(accessory_id: accessory_id)
       combined_accessory.quantity = (combined_accessory.quantity || 0) + quantity
       combined_accessory.price = Accessory.find(accessory_id).price
-      total_price = combined_accessory.price + @shopping_cart.tee_time.price
-
-      @shopping_cart.update(total: total_price)
 
       if combined_accessory.save
         flash[:notice] = "Accessory added to cart."
       else
-        flash[:alert] = "Failed to add accessory to cart."
+        flash[:alert] = "Failed to add accessory to cart. Errors: #{combined_accessory.errors.full_messages.to_sentence}"
       end
     end
 
     redirect_to shopping_cart_path(@shopping_cart)
   end
+
 
   def remove_accessory
     combined_accessory = @shopping_cart.combined_accessories.find_by(accessory_id: params[:accessory_id])

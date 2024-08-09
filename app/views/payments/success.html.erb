@@ -1,0 +1,18 @@
+<h1>Booking Confirmation</h1>
+
+<p>Tee Time: <%= @order.tee_time.start_time.strftime("%B %d, %Y %H:%M") %> at <%= @order.tee_time.golf_course.name %></p>
+<p>Price: <%= number_to_currency(@order.tee_time.price / 100.0) %></p>
+
+<h2>Accessories</h2>
+<ul>
+  <% @combined_accessories.each do |combined_accessory| %>
+    <li>
+      <%= combined_accessory.accessory.product %> - <%= combined_accessory.quantity %> x <%= number_to_currency(combined_accessory.price / 100.0) %>
+    </li>
+  <% end %>
+</ul>
+
+<h2>Total Summary</h2>
+<p>Total Price: <%= number_to_currency(@order.total_price / 100.0) %></p>
+<p>Tax Rate: <%= number_to_percentage(current_user.province.total_tax_rate * 100, precision: 2) %></p>
+<p>Total with Tax: <%= number_to_currency(@order.total_price / 100.0 ) %></p>

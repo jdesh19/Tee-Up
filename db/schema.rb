@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_02_161547) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_09_054634) do
   create_table "accessories", force: :cascade do |t|
     t.string "product"
     t.integer "price"
@@ -79,6 +79,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_02_161547) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "shopping_cart_id"
+    t.integer "order_id"
   end
 
   create_table "golf_courses", force: :cascade do |t|
@@ -96,7 +97,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_02_161547) do
     t.integer "combined_accessory_id"
     t.integer "user_id"
     t.integer "total_price"
-    t.integer "item_quantity"
   end
 
   create_table "provinces", force: :cascade do |t|
