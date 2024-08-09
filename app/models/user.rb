@@ -15,7 +15,8 @@ class User < ApplicationRecord
   has_many :orders
   belongs_to :province
 
-  validates :email, uniqueness: true
+  validates :email, presence: true, uniqueness: true
   validates :password, presence: true, on: :create
   validates :address, presence: true
+  validates :province_id, presence: true, numericality: { only_integer: true }
 end

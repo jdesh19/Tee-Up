@@ -12,6 +12,6 @@ class TeeTime < ApplicationRecord
   end
 
   validates :start_time, presence: true
-  validates :price, presence: true
-  validates :golf_course_id, presence: true
+  validates :price, presence: true, numericality: { greater_than: 0 }
+  validates :golf_course_id, presence: true, numericality: { only_integer: true }
 end

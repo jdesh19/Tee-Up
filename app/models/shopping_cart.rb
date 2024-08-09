@@ -26,5 +26,5 @@ class ShoppingCart < ApplicationRecord
     ["created_at", "id", "id_value", "updated_at", "user_id"]
   end
 
-  validates :user_id, presence: true
+  validates :user_id, presence: true, numericality: { only_integer: true }
 end
