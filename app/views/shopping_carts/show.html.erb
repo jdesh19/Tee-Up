@@ -34,13 +34,25 @@
       <%= label_tag :quantity, 'Quantity' %>
       <%= number_field_tag :quantity, 1, min: 1, max: 4, class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" %>
     </div>
-    <%= submit_tag 'Add to Booking', class: "bg-green-400 border rounded mt-1 hover:bg-green-500" %>
+    <%= submit_tag 'Add to Booking', class: "bg-green-400 border rounded mt-1 hover:bg-green-500 p-2" %>
   <% end %>
 
   <h2 class="mt-6 text-xl font-semibold">Summary</h2>
   <div class="p-4 border rounded bg-green-100">
     <p class="text-lg"><strong>Total Price:</strong> <%= number_to_currency(@shopping_cart.total_price) %></p>
-    <p class="text-lg"><strong> <%= link_to current_user.province.province, edit_user_registration_path %> Tax Rate:</strong> <%= @shopping_cart.tax_rate %>%</p>
+    <%if current_user.province.pst > 0 %>
+      <p class="text-lg"><strong>PST</strong> <%= current_user.province.pst %>% </p>
+    <%end%>
+    <%if current_user.province.gst > 0 %>
+      <p class="text-lg"><strong>GST</strong> <%= current_user.province.gst %>% </p>
+    <%end%> 
+    <% if current_user.province.hst > 0 %>
+      <p class="text-lg"><strong>HST</strong> <%= current_user.province.hst %>% </p>
+    <%end%>
+    <% if current_user.province.qst > 0 %>
+      <p class="text-lg"><strong>QST</strong> <%= current_user.province.qst %>% </p>
+    <%end%>
+    <p class="text-lg"><strong> <%= link_to current_user.province.province, edit_user_registration_path, class: "underline" %> Tax Rate:</strong> <%= @shopping_cart.tax_rate %>%</p>
     <p class="text-lg"><strong>Total with Tax:</strong> <%= number_to_currency(@shopping_cart.total_with_tax) %></p>
   </div>
 

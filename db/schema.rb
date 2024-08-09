@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_09_054634) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_09_161025) do
   create_table "accessories", force: :cascade do |t|
     t.string "product"
     t.integer "price"
@@ -97,6 +97,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_09_054634) do
     t.integer "combined_accessory_id"
     t.integer "user_id"
     t.integer "total_price"
+    t.string "user_province"
   end
 
   create_table "provinces", force: :cascade do |t|

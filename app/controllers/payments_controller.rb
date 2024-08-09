@@ -72,7 +72,9 @@ class PaymentsController < ApplicationController
       @order = Order.create!(
         user_id: current_user.id,
         tee_time_id: @shopping_cart.tee_time_id,
+        combined_accessory_id: @shopping_cart.accessory_id,
         total_price: total_price_in_cents,
+        user_province: current_user.province.province
 
       )
 
